@@ -2,7 +2,7 @@
 lab1-help:
 	@echo "Команды для lab1:"
 	@echo "<minikube-start> - разворачивает minikube кластер"
-	@echo "<minikube-stop>  - остонавливает minikube кластер"
+	@echo "<minikube-stop>  - останавливает minikube кластер"
 	@echo "<init-vault-pod> - разворачивает pod в Minikube, проверяет наличие сервиса, настраивает порт-форвардинг"
 	@echo "<vault-logs>     - показывает логи пода vault"
 
