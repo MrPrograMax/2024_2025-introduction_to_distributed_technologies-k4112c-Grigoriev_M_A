@@ -21,7 +21,7 @@ lab1-help:
 	@echo "<lab1-logs> - показывает логи пода vault"
 
 .PHONY: lab1-start
-lab1-start: ensure-lab1-service
+lab1-start: ensure-lab1-service wait-for-vault-pod-ready
 	minikube kubectl -- port-forward service/vault 8200:8200
 
 .PHONY: ensure-lab1-service
@@ -29,6 +29,14 @@ ensure-lab1-service:
 	kubectl apply -f lab1/vault.yaml
 	@minikube kubectl -- get service vault >/dev/null 2>&1 || \
 	minikube kubectl -- expose pod vault --type=NodePort --port=8200
+
+.PHONY: wait-for-vault-pod-ready
+wait-for-vault-pod-ready:
+	@echo "Waiting for Vault pod to be ready..."
+	@until minikube kubectl -- get pods --selector=app=vault -o jsonpath='{.items[0].status.phase}' 2>/dev/null | grep -q 'Running'; do \
+		echo "Vault pod is not ready yet. Retrying in 2 seconds..."; \
+
+
 
 .PHONY: lab1-logs
 lab1-logs:
@@ -41,7 +49,7 @@ lab2-help:
 	@echo "<lab2-logs>  - показывает логи подов"
 
 .PHONY: lab2-start
-lab2-start: ensure-lab2-service
+lab2-start: ensure-lab2-service wait-for-pod-ready
 	minikube kubectl -- port-forward service/lab2-react-service 3000:3000
 
 .PHONY: ensure-lab2-service
@@ -57,3 +65,12 @@ lab2-logs:
 		echo "\nLogs for pod: $$pod"; \
 		kubectl logs $$pod; \
 	done
+
+.PHONY: wait-for-pod-ready
+wait-for-pod-ready:
+	@echo "Waiting for pod to be ready..."
+	@until minikube kubectl -- get pods --selector=app=lab2service -o jsonpath='{.items[0].status.phase}' 2>/dev/null | grep -q 'Running'; do \
+		echo "Pod is not ready yet. Retrying in 2 seconds..."; \
+		sleep 2; \
+	done
+	@echo "Pod is ready!"
