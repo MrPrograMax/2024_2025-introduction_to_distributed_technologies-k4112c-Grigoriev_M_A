@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab2service
+  labels:
+    app: lab2service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lab2service
+  template:
+    metadata:
+      labels:
+        app: lab2service
+    spec:
+      containers:
+        - name: lab2service
+          image: ifilyaninitmo/itdt-contained-frontend:master
+          ports:
+            - containerPort: 3000
+          env:
+          - name: REACT_APP_USERNAME
+            value: grigoriev_app
+          - name: REACT_APP_COMPANY_NAME
+            value: grigoriev_company
