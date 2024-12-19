@@ -5,7 +5,7 @@ Year: 2024/2025 \
 Group: K4112c \
 Author: Grigoriev Maxim Alexeyevich \
 Lab: Lab3 \
-Date of create: //TODO \
+Date of create: 18.12.24 \
 Date of finished: //TODO
 
 ## Лабораторная 2
